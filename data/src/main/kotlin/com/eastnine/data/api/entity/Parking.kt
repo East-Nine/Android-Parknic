@@ -1,0 +1,46 @@
+package com.eastnine.data.api.entity
+
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
+data class Parking(
+    @SerializedName("ADDR") @Expose val address: String,
+    @SerializedName("ADD_RATES") @Expose val addRate: Int,
+    @SerializedName("ADD_TIME_RATE") @Expose val addTimeRate: Int,
+    @SerializedName("ASSIGN_CODE") @Expose val assignCode: String,
+    @SerializedName("ASSIGN_CODE_NM") @Expose val assignCodeName: String,
+    @SerializedName("BUS_ADD_RATES") @Expose val busAddRate: Int,
+    @SerializedName("BUS_ADD_TIME_RATE") @Expose val busAddTimeRate: Int,
+    @SerializedName("BUS_RATES") @Expose val busRate: Int,
+    @SerializedName("BUS_TIME_RATE") @Expose val busTimeRate: Int,
+    @SerializedName("CAPACITY") @Expose val capacity: Int,
+    @SerializedName("DAY_MAXIMUM") @Expose val datMaximum: Int,
+    @SerializedName("FULLTIME_MONTHLY") @Expose val fullTimeMonthly: String,
+    @SerializedName("GRP_PARKNM") @Expose val grpParkName: String,
+    @SerializedName("HOLIDAY_BEGIN_TIME") @Expose val holidayBeginTime: String,
+    @SerializedName("HOLIDAY_END_TIME") @Expose val holidayEndTime: String,
+    @SerializedName("HOLIDAY_PAY_NM") @Expose val holidayPayName: String,
+    @SerializedName("HOLIDAY_PAY_YN") @Expose val holidayPayYN: String,
+    @SerializedName("LAT") @Expose val lat: Double,
+    @SerializedName("LNG") @Expose val lng: Double,
+    @SerializedName("NIGHT_FREE_OPEN") @Expose val nightFreeOpen: String,
+    @SerializedName("NIGHT_FREE_OPEN_NM") @Expose val nightFreeOpenName: String,
+    @SerializedName("OPERATION_RULE") @Expose val operationRule: String,
+    @SerializedName("OPERATION_RULE_NM") @Expose val operationRuleName: String,
+    @SerializedName("PARKING_CODE") @Expose val parkingCode: String,
+    @SerializedName("PARKING_NAME") @Expose val parkingName: String,
+    @SerializedName("PARKING_TYPE") @Expose val parkingType: String,
+    @SerializedName("PARKING_TYPE_NM") @Expose val parkingTypeName: String,
+    @SerializedName("PAY_NM") @Expose val payName: String,
+    @SerializedName("PAY_YN") @Expose val payYN: String,
+    @SerializedName("RATES") @Expose val rate: Int,
+    @SerializedName("SATURDAY_PAY_NM") @Expose val saturdayPayName: String,
+    @SerializedName("SATURDAY_PAY_YN") @Expose val saturdayPayYN: String,
+    @SerializedName("SYNC_TIME") @Expose val syncTime: String,
+    @SerializedName("TEL") @Expose val tel: String,
+    @SerializedName("TIME_RATE") @Expose val timeRate: Int,
+    @SerializedName("WEEKDAY_BEGIN_TIME") @Expose val weekdayBeginTime: String,
+    @SerializedName("WEEKDAY_END_TIME") @Expose val weekdayEndTime: String,
+    @SerializedName("WEEKEND_BEGIN_TIME") @Expose val weekendBeginTime: String,
+    @SerializedName("WEEKEND_END_TIME") @Expose val weekendEndTime: String
+)
