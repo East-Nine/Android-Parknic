@@ -21,15 +21,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupMap()
         setupListener()
         setupParkingData()
+    }
+
+    private fun setupMap() {
+        binding.mainMapView.run {
+            setDefaultCurrentLocationMarker()
+            setShowCurrentLocationMarker(true)
+        }
     }
 
     private fun setupListener() {
         binding.mainMapView.setMapViewEventListener(object: MapView.MapViewEventListener {
             override fun onMapViewInitialized(mapView: MapView?) {
-                mapView?.setDefaultCurrentLocationMarker()
-                mapView?.setShowCurrentLocationMarker(true)
+                mapView?.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
             }
 
             override fun onMapViewCenterPointMoved(mapView: MapView?, p1: MapPoint?) = Unit
