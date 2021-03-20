@@ -25,7 +25,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
     }
 
     private fun setupBinding() {
-        binding.viewModel = viewModel
+        binding.run {
+            viewModel = this@MainActivity.viewModel
+            seoulApiKey = getString(R.string.key_seoul_api)
+        }
     }
 
     private fun setupMap() {
@@ -57,13 +60,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         })
     }
 
-    companion object {
-        // Used to load the 'native-lib' library on application startup.
-        init {
-            System.loadLibrary("native-lib")
-        }
-    }
-
     override fun onMapViewInitialized(mapView: MapView?) {
         mapView?.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
     }
@@ -81,7 +77,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
         if (viewModel.mapCenterPoint == null) {
             mapView?.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
             point?.let {
-                viewModel.getParking(it.mapPointGeoCoord.latitude, it.mapPointGeoCoord.longitude)
+                viewModel.getParking(getString(R.string.key_seoul_api), it.mapPointGeoCoord.latitude, it.mapPointGeoCoord.longitude)
             }
         }
 

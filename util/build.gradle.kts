@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    setAndroidExtention(rootProject.rootDir.absolutePath)
+    setAndroidExtention(rootProject.rootDir.absolutePath, null)
     
     @Suppress("UnstableApiUsage")
     buildFeatures {

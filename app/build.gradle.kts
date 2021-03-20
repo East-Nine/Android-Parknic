@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     androidApp()
     kotlinAndroid()
@@ -6,11 +8,15 @@ plugins {
     daggerHilt()
 }
 
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
+
 android {
-    setAndroidExtention(rootProject.rootDir.absolutePath)
+    setAndroidExtention(rootProject.rootDir.absolutePath, properties)
 
     defaultConfig {
         applicationId = "com.eastnine.parknic"
+        addManifestPlaceholders(mapOf("kakaoMapKey" to properties.getProperty("kakao.key")))
 
         externalNativeBuild {
             cmake {

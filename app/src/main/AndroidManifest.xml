@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Parknic">
 
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="f8738ceb60648fdd8738692ba318dcba"/>
+        <meta-data android:name="com.kakao.sdk.AppKey" android:value="${kakaoMapKey}"/>
 
         <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>

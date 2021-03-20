@@ -26,11 +26,11 @@ class MainViewModel @Inject constructor(
         _searchLocationButtonVisibility.value = if (visibility) View.VISIBLE else View.GONE
     }
 
-    fun getParking(lat: Double, lng: Double) {
+    fun getParking(apiKey: String, lat: Double, lng: Double) {
         kakaoUseCase.getAddress(lat, lng)
             .subscribeOn(AndroidSchedulers.mainThread())
             .concatMap {
-                parkingUseCase.getParking(it.region3depthName)
+                parkingUseCase.getParking(apiKey, it.region3depthName)
                     .subscribeOn(AndroidSchedulers.mainThread())
             }
             .subscribe(
@@ -43,9 +43,9 @@ class MainViewModel @Inject constructor(
             ).also(::addDisposable)
     }
 
-    fun onClickSearchCurrentLocation() {
+    fun onClickSearchCurrentLocation(seoulApiKey: String) {
         mapCenterPoint?.let {
-            getParking(it.mapPointGeoCoord.latitude, it.mapPointGeoCoord.longitude)
+            getParking(seoulApiKey, it.mapPointGeoCoord.latitude, it.mapPointGeoCoord.longitude)
         }
     }
 

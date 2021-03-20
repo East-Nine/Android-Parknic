@@ -7,8 +7,8 @@ import com.eastnine.domain.repository.ParkingRepository
 import io.reactivex.rxjava3.core.Single
 
 class ParkingRepositoryImpl(private val parkingService: ParkingService): ParkingRepository {
-    override fun getParkInfo(town: String): Single<List<ParkingDto>> =
-        parkingService.getParking(town).map {
+    override fun getParkInfo(apiKey: String, town: String): Single<List<ParkingDto>> =
+        parkingService.getParking(apiKey, town).map {
             it.getParkInfo.row.map(ParkingAdapter::entityToDto)
         }
 }

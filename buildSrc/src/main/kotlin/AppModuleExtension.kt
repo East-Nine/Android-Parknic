@@ -1,8 +1,9 @@
 import com.android.build.gradle.TestedExtension
 import org.gradle.api.JavaVersion
 import java.io.File
+import java.util.*
 
-fun TestedExtension.setAndroidExtention(rootDirectory: String) {
+fun TestedExtension.setAndroidExtention(rootDirectory: String, properties: Properties?) {
     compileSdkVersion(Apps.compileSdk)
     buildToolsVersion(Apps.buildTools)
     
@@ -24,6 +25,10 @@ fun TestedExtension.setAndroidExtention(rootDirectory: String) {
         getByName(Build.DEBUG) {
             isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
             consumerProguardFiles(File("$rootDirectory/buildSrc/consumerRules/consumer-rules.pro"))
+
+            if (properties != null) {
+                resValue("string", "key_seoul_api", properties.getProperty("seoul.key"))
+            }
         }
         getByName(Build.RELEASE) {
             isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
