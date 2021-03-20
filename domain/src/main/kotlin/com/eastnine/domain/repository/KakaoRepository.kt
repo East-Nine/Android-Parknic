@@ -5,5 +5,5 @@ import com.eastnine.domain.dto.ParkingDto
 import io.reactivex.rxjava3.core.Single
 
 interface KakaoRepository {
-    fun getAddress(): Single<AddressDto>
+    fun getAddress(lat: Double, lng: Double): Single<AddressDto>
 }

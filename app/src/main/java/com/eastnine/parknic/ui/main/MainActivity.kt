@@ -1,10 +1,7 @@
 package com.eastnine.parknic.ui.main
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
 import com.eastnine.domain.dto.ParkingDto
 import com.eastnine.parknic.R
 import com.eastnine.parknic.databinding.ActivityMainBinding
@@ -15,15 +12,20 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
+class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main),
+    MapView.MapViewEventListener {
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupBinding()
         setupMap()
         setupListener()
-        setupParkingData()
+    }
+
+    private fun setupBinding() {
+        binding.viewModel = viewModel
     }
 
     private fun setupMap() {
@@ -34,55 +36,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun setupListener() {
-        binding.mainMapView.setMapViewEventListener(object: MapView.MapViewEventListener {
-            override fun onMapViewInitialized(mapView: MapView?) {
-                mapView?.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-            }
-
-            override fun onMapViewCenterPointMoved(mapView: MapView?, p1: MapPoint?) = Unit
-
-            override fun onMapViewZoomLevelChanged(mapView: MapView?, p1: Int) = Unit
-
-            override fun onMapViewSingleTapped(mapView: MapView?, p1: MapPoint?) = Unit
-
-            override fun onMapViewDoubleTapped(mapView: MapView?, p1: MapPoint?) = Unit
-
-            override fun onMapViewLongPressed(mapView: MapView?, p1: MapPoint?) = Unit
-
-            override fun onMapViewDragStarted(mapView: MapView?, p1: MapPoint?) = Unit
-
-            override fun onMapViewDragEnded(mapView: MapView?, p1: MapPoint?) = Unit
-
-            override fun onMapViewMoveFinished(mapView: MapView?, p1: MapPoint?) = Unit
-        })
-        binding.mainMapView.setCurrentLocationEventListener(object: MapView.CurrentLocationEventListener {
-            override fun onCurrentLocationUpdate(mapView: MapView?, currentLocation: MapPoint?, accuracyInMeters: Float) {
-            }
-
-            override fun onCurrentLocationDeviceHeadingUpdate(mapView: MapView?, accuracyInMeters: Float) = Unit
-
-            override fun onCurrentLocationUpdateFailed(mapView: MapView?) = Unit
-
-            override fun onCurrentLocationUpdateCancelled(mapView: MapView?) = Unit
-        })
+        binding.mainMapView.setMapViewEventListener(this)
 
         viewModel.setOnSplashDataListener(object: OnMainDataListener {
             override fun getParking(parkingList: List<ParkingDto>) {
-                for (parking in parkingList) {
-                    val marker = MapPOIItem()
-                    marker.run {
-                        itemName = parking.parkingName
-                        mapPoint = MapPoint.mapPointWithGeoCoord(parking.lat, parking.lng)
-                        markerType = MapPOIItem.MarkerType.RedPin
+                binding.mainMapView.run {
+                    removeAllPOIItems()
+
+                    for (parking in parkingList) {
+                        val marker = MapPOIItem()
+                        marker.run {
+                            itemName = parking.parkingName
+                            mapPoint = MapPoint.mapPointWithGeoCoord(parking.lat, parking.lng)
+                            markerType = MapPOIItem.MarkerType.RedPin
+                        }
+                        addPOIItem(marker)
                     }
-                    binding.mainMapView.addPOIItem(marker)
                 }
             }
         })
-    }
-
-    private fun setupParkingData() {
-        viewModel.getParking()
     }
 
     companion object {
@@ -90,5 +62,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         init {
             System.loadLibrary("native-lib")
         }
+    }
+
+    override fun onMapViewInitialized(mapView: MapView?) {
+        mapView?.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
+    }
+
+    override fun onMapViewCenterPointMoved(mapView: MapView?, point: MapPoint?) = Unit
+    override fun onMapViewZoomLevelChanged(mapView: MapView?, level: Int) = Unit
+    override fun onMapViewSingleTapped(mapView: MapView?, point: MapPoint?) = Unit
+    override fun onMapViewDoubleTapped(mapView: MapView?, point: MapPoint?) = Unit
+    override fun onMapViewLongPressed(mapView: MapView?, point: MapPoint?) = Unit
+    override fun onMapViewDragStarted(mapView: MapView?, point: MapPoint?) = Unit
+    override fun onMapViewDragEnded(mapView: MapView?, point: MapPoint?) {
+        viewModel.setSearchLocationButtonVisibility(true)
+    }
+    override fun onMapViewMoveFinished(mapView: MapView?, point: MapPoint?) {
+        if (viewModel.mapCenterPoint == null) {
+            mapView?.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
+            point?.let {
+                viewModel.getParking(it.mapPointGeoCoord.latitude, it.mapPointGeoCoord.longitude)
+            }
+        }
+
+        viewModel.mapCenterPoint = point
     }
 }

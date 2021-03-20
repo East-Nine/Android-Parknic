@@ -4,4 +4,5 @@
     <string name="dialog_permission_ok_button">Setting</string>
     <string name="dialog_permission_cancel_button">Cancel</string>
     <string name="not_allow_permission_finish">권한이 없어 앱을 종료합니다.</string>
+    <string name="main_search_current_location">현재 지역에서 찾기</string>
 </resources>

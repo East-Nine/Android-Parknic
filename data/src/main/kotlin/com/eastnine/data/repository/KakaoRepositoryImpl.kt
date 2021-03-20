@@ -8,8 +8,8 @@ import com.eastnine.domain.repository.KakaoRepository
 import io.reactivex.rxjava3.core.Single
 
 class KakaoRepositoryImpl(private val kakaoService: KakaoService): KakaoRepository {
-    override fun getAddress(): Single<AddressDto> =
-        kakaoService.getAddress(127.0443188, 37.629702).map { response ->
+    override fun getAddress(lat: Double, lng: Double): Single<AddressDto> =
+        kakaoService.getAddress(lng, lat).map { response ->
             val address = response.documents.firstOrNull()?.address
             address?.let { addr ->
                 AddressAdapter.entityToDto(addr)

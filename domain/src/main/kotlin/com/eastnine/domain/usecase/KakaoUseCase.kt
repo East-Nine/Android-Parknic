@@ -7,5 +7,5 @@ import com.eastnine.domain.repository.ParkingRepository
 import io.reactivex.rxjava3.core.Single
 
 class KakaoUseCase(private val kakaoRepository: KakaoRepository) {
-    fun getAddress(): Single<AddressDto> = kakaoRepository.getAddress()
+    fun getAddress(lat: Double, lng: Double): Single<AddressDto> = kakaoRepository.getAddress(lat, lng)
 }
