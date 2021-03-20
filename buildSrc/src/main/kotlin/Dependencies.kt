@@ -90,10 +90,6 @@ object OkHttp {
     const val logging = "$group:logging-interceptor:4.8.1"
 }
 
-object Glide {
-    const val glide = "com.github.bumptech.glide:glide:4.11.0"
-}
-
 object Gson {
     const val gson = "com.google.code.gson:gson:2.8.6"
 }

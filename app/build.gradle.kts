@@ -54,7 +54,6 @@ dependencies {
     hilt()
     hiltViewModel()
     retrofit()
-    glide()
     gson()
     rxjava3()
 

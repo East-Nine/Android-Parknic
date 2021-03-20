@@ -59,10 +59,6 @@ fun DependencyHandlerScope.okHttp() {
     implementation(OkHttp.logging)
 }
 
-fun DependencyHandlerScope.glide() {
-    implementation(Glide.glide)
-}
-
 fun DependencyHandlerScope.gson() {
     implementation(Gson.gson)
 }
