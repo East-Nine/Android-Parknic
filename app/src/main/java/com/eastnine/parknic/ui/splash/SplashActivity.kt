@@ -37,15 +37,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 }
             }
         )
-
-
-        /*registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            if (permissions.filter { it.value }.isNotEmpty()) {
-                startTimer()
-            }
-        }.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))*/
     }
 
     private fun permissionDialogShow(permissions: Array<String>) {
