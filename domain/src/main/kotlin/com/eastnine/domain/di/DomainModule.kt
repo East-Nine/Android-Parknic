@@ -1,6 +1,8 @@
 package com.eastnine.domain.di
 
+import com.eastnine.domain.repository.KakaoRepository
 import com.eastnine.domain.repository.ParkingRepository
+import com.eastnine.domain.usecase.KakaoUseCase
 import com.eastnine.domain.usecase.ParkingUseCase
 import dagger.Module
 import dagger.Provides
@@ -11,8 +13,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DomainModule {
-    
+
     @Singleton
     @Provides
-    fun provideParkUseCase(parkingRepository: ParkingRepository): ParkingUseCase = ParkingUseCase(parkingRepository)
+    fun provideKakaoUseCase(kakaoRepository: KakaoRepository): KakaoUseCase = KakaoUseCase(kakaoRepository)
+
+    @Singleton
+    @Provides
+    fun provideParkingUseCase(parkingRepository: ParkingRepository): ParkingUseCase = ParkingUseCase(parkingRepository)
 }

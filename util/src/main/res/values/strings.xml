@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="dialog_permission_ok_button">Setting</string>
-    <string name="dialog_permission_cancel_button">Cancel</string>
-    <string name="not_allow_permission">this app needs out to grant %s permission.</string>
-    <string name="not_allow_permission_finish">No permission to exit the app.</string>
-</resources>

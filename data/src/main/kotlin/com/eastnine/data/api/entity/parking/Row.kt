@@ -1,9 +1,9 @@
-package com.eastnine.data.api.entity
+package com.eastnine.data.api.entity.parking
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class Parking(
+data class Row(
     @SerializedName("ADDR") @Expose val address: String,
     @SerializedName("ADD_RATES") @Expose val addRate: Int,
     @SerializedName("ADD_TIME_RATE") @Expose val addTimeRate: Int,

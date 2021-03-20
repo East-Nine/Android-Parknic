@@ -1,48 +1,95 @@
 package com.eastnine.parknic.ui.splash
 
+import android.Manifest
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
-import com.eastnine.domain.dto.ParkingDto
+import android.provider.Settings
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import com.eastnine.parknic.R
 import com.eastnine.parknic.databinding.ActivitySplashBinding
-import com.eastnine.parknic.ui.MainActivity
+import com.eastnine.parknic.ui.main.MainActivity
+import com.eastnine.util.PermissionUtil
 import com.eastnine.util.base.BaseActivity
-import com.kakao.util.maps.helper.Utility
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
-@AndroidEntryPoint
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
-    private val viewModel: SplashViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //setupTimer()
-        setupListener()
-        setupParkingData()
+        checkPermission()
     }
 
-    private fun setupTimer() {
+    private fun checkPermission() {
+        PermissionUtil.permissionsCheckListener(this@SplashActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            {
+                startTimer()
+            },
+            { permissions ->
+                val permissionRationale = permissions.filter { shouldShowRequestPermissionRationale(it) }.toTypedArray()
+                if (permissionRationale.isNotEmpty()) {
+                    permissionDialogShow(permissionRationale)
+                } else {
+                    requestPermission(permissions)
+                }
+            }
+        )
+
+
+        /*registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            if (permissions.filter { it.value }.isNotEmpty()) {
+                startTimer()
+            }
+        }.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))*/
+    }
+
+    private fun permissionDialogShow(permissions: Array<String>) {
+        AlertDialog.Builder(this@SplashActivity).run {
+            setMessage(getString(R.string.not_allow_permission))
+
+            setPositiveButton(getString(R.string.dialog_permission_ok_button)) { dialog, _ ->
+                dialog.dismiss()
+
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                    permissions.any { shouldShowRequestPermissionRationale(it) }) {
+                    activityResultRegistry
+                        .register("PERMISSION", ActivityResultContracts.StartActivityForResult())
+                        {
+                            checkPermission()
+                        }
+                        .launch(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", packageName, null)))
+                } else {
+                    checkPermission()
+                }
+            }
+
+            setNegativeButton(getString(R.string.dialog_permission_cancel_button)) { dialog, _ ->
+                dialog.dismiss()
+                finish()
+            }
+        }.show()
+    }
+
+    private fun requestPermission(permissions: Array<out String>) =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { result ->
+            if (result.filter { it.value }.isNotEmpty()) {
+                startTimer()
+            }
+        }.launch(permissions)
+
+    private fun startTimer() {
         CoroutineScope(Dispatchers.IO).launch {
             delay(SPLASH_DELAY_TIME)
             startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             finish()
         }
-    }
-
-    private fun setupListener() {
-        viewModel.setOnSplashDataListener(object: OnSplashDataListener {
-            override fun getParking(parkingList: List<ParkingDto>) {
-                parkingList.size
-            }
-        })
-    }
-
-    private fun setupParkingData() {
-        viewModel.getParking()
     }
 
     companion object {

@@ -1,54 +1,54 @@
 package com.eastnine.data.api.adapter
 
-import com.eastnine.data.api.entity.Parking
+import com.eastnine.data.api.entity.parking.Row
 import com.eastnine.domain.dto.ParkingDto
 
 object ParkingAdapter {
-    fun entityToDto(parking: Parking): ParkingDto =
+    fun entityToDto(row: Row): ParkingDto =
         ParkingDto(
-            address = parking.address,
-            addRate = parking.addRate,
-            addTimeRate = parking.addTimeRate,
-            assignCode = parking.assignCode,
-            assignCodeName = parking.assignCodeName,
-            busAddRate = parking.busAddRate,
-            busAddTimeRate = parking.busAddTimeRate,
-            busRate = parking.busRate,
-            busTimeRate = parking.busTimeRate,
-            capacity = parking.capacity,
-            datMaximum = parking.datMaximum,
-            fullTimeMonthly = parking.fullTimeMonthly,
-            grpParkName = parking.grpParkName,
-            holidayBeginTime = parking.holidayBeginTime,
-            holidayEndTime = parking.holidayEndTime,
-            holidayPayName = parking.holidayPayName,
-            holidayPayYN = parking.holidayPayYN,
-            lat = parking.lat,
-            lng = parking.lng,
-            nightFreeOpen = parking.nightFreeOpen,
-            nightFreeOpenName = parking.nightFreeOpenName,
-            operationRule = parking.operationRule,
-            operationRuleName = parking.operationRuleName,
-            parkingCode = parking.parkingCode,
-            parkingName = parking.parkingName,
-            parkingType = parking.parkingType,
-            parkingTypeName = parking.parkingTypeName,
-            payName = parking.payName,
-            payYN = parking.payYN,
-            rate = parking.rate,
-            saturdayPayName = parking.saturdayPayName,
-            saturdayPayYN = parking.saturdayPayYN,
-            syncTime = parking.syncTime,
-            tel = parking.tel,
-            timeRate = parking.timeRate,
-            weekdayBeginTime = parking.weekdayBeginTime,
-            weekdayEndTime = parking.weekdayEndTime,
-            weekendBeginTime = parking.weekendBeginTime,
-            weekendEndTime = parking.weekendEndTime
+            address = row.address,
+            addRate = row.addRate,
+            addTimeRate = row.addTimeRate,
+            assignCode = row.assignCode,
+            assignCodeName = row.assignCodeName,
+            busAddRate = row.busAddRate,
+            busAddTimeRate = row.busAddTimeRate,
+            busRate = row.busRate,
+            busTimeRate = row.busTimeRate,
+            capacity = row.capacity,
+            datMaximum = row.datMaximum,
+            fullTimeMonthly = row.fullTimeMonthly,
+            grpParkName = row.grpParkName,
+            holidayBeginTime = row.holidayBeginTime,
+            holidayEndTime = row.holidayEndTime,
+            holidayPayName = row.holidayPayName,
+            holidayPayYN = row.holidayPayYN,
+            lat = row.lat,
+            lng = row.lng,
+            nightFreeOpen = row.nightFreeOpen,
+            nightFreeOpenName = row.nightFreeOpenName,
+            operationRule = row.operationRule,
+            operationRuleName = row.operationRuleName,
+            parkingCode = row.parkingCode,
+            parkingName = row.parkingName,
+            parkingType = row.parkingType,
+            parkingTypeName = row.parkingTypeName,
+            payName = row.payName,
+            payYN = row.payYN,
+            rate = row.rate,
+            saturdayPayName = row.saturdayPayName,
+            saturdayPayYN = row.saturdayPayYN,
+            syncTime = row.syncTime,
+            tel = row.tel,
+            timeRate = row.timeRate,
+            weekdayBeginTime = row.weekdayBeginTime,
+            weekdayEndTime = row.weekdayEndTime,
+            weekendBeginTime = row.weekendBeginTime,
+            weekendEndTime = row.weekendEndTime
         )
 
-    fun dtotoEntity(parkingDto: ParkingDto): Parking =
-        Parking(
+    fun dtoToEntity(parkingDto: ParkingDto): Row =
+        Row(
             address = parkingDto.address,
             addRate = parkingDto.addRate,
             addTimeRate = parkingDto.addTimeRate,

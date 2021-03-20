@@ -1,7 +1,7 @@
-package com.eastnine.parknic.ui.splash
+package com.eastnine.parknic.ui.main
 
 import com.eastnine.domain.dto.ParkingDto
 
-interface OnSplashDataListener {
+interface OnMainDataListener {
     fun getParking(parkingList: List<ParkingDto>)
 }

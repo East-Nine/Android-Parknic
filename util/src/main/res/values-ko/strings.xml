@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="dialog_permission_ok_button">Setting</string>
-    <string name="dialog_permission_cancel_button">Cancel</string>
-    <string name="not_allow_permission">이 앱은 %s 권한이 필요합니다.</string>
-    <string name="not_allow_permission_finish">권한이 없어 앱을 종료합니다.</string>
-</resources>
