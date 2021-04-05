@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.eastnine.parknic.R
@@ -16,6 +17,15 @@ import com.eastnine.util.base.BaseActivity
 import kotlinx.coroutines.*
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
+    val permissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { result ->
+        if (result.filter { it.value }.isNotEmpty()) {
+            startTimer()
+        } else {
+            checkPermission()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +41,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             { permissions ->
                 val permissionRationale = permissions.filter { shouldShowRequestPermissionRationale(it) }.toTypedArray()
                 if (permissionRationale.isNotEmpty()) {
-                    permissionDialogShow(permissionRationale)
-                } else {
                     requestPermission(permissions)
+                } else {
+                    permissionDialogShow(permissionRationale)
                 }
             }
         )
@@ -45,9 +55,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
             setPositiveButton(getString(R.string.dialog_permission_ok_button)) { dialog, _ ->
                 dialog.dismiss()
-
+                Log.i("AAA", "permissionDialogShow: ${permissions.any { shouldShowRequestPermissionRationale(it) }}")
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                    permissions.any { shouldShowRequestPermissionRationale(it) }) {
+                    !permissions.any { shouldShowRequestPermissionRationale(it) }) {
                     activityResultRegistry
                         .register("PERMISSION", ActivityResultContracts.StartActivityForResult())
                         {
@@ -66,14 +76,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         }.show()
     }
 
-    private fun requestPermission(permissions: Array<out String>) =
-        registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()
-        ) { result ->
-            if (result.filter { it.value }.isNotEmpty()) {
-                startTimer()
-            }
-        }.launch(permissions)
+    private fun requestPermission(permissions: Array<out String>) = permissionLauncher.launch(permissions)
 
     private fun startTimer() {
         CoroutineScope(Dispatchers.IO).launch {
