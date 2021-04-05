@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.eastnine.parknic.R
@@ -55,7 +54,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
             setPositiveButton(getString(R.string.dialog_permission_ok_button)) { dialog, _ ->
                 dialog.dismiss()
-                Log.i("AAA", "permissionDialogShow: ${permissions.any { shouldShowRequestPermissionRationale(it) }}")
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                     !permissions.any { shouldShowRequestPermissionRationale(it) }) {
                     activityResultRegistry
